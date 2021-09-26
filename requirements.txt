@@ -1,0 +1,5 @@
+requests
+eip712_structs
+eth_account
+hexbytes
+web3
