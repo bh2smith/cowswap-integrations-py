@@ -3,7 +3,7 @@
 A collection of python scripts and services built as simple integrations
 with [Gnosis Protocol v2](https://gnosis.io/protocol/)
 
-## Trading Bot for Stable Coin Orders
+## [WIP] Trading Bot for Stable Coin Orders
 
 Initially inspired by [Martin's script](https://pastebin.com/RZyfL08P). This integration
 is a simple bot which monitors the orderbook seeking open orders
@@ -19,9 +19,9 @@ transaction fees are negligible.
 
 
 
-## LP Token Solver
+## [TODO] LP Token Solver
 
-**TODO** - design an HTTP solver which allow people to "swap"
+Design an HTTP solver which allow people to "swap"
 [LP tokens](https://coinmarketcap.com/alexandria/glossary/liquidity-provider-tokens-lp-tokens)
 
 In essence, the solver will fetch the open orderbook, filtering for orders whose buy or
