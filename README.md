@@ -17,7 +17,9 @@ purchased than sold (including fees).
 For this reason, the script is primarily intended to be run on xDai network where
 transaction fees are negligible.
 
-
+To see the trading history of the bot currently running on xDai with this script check
+out this [trade history](https://dune.xyz/queries/130938/257752) table filtered by
+address [0xd2cc479be0512301d0b19c3c0a9300baa1e03758](https://blockscout.com/xdai/mainnet/address/0xD2Cc479Be0512301D0B19C3C0A9300bAA1E03758/transactions)
 
 ## [TODO] LP Token Solver
 
