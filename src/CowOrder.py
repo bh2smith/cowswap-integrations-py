@@ -56,7 +56,7 @@ class Order(Fee, Signature, EIP712Struct):
         jsonorder = json.dumps(self, default=lambda obj: obj.__dict__, indent=4)
         self.orders = orders
         self.base_url = base_url
-        return requests.post(self.base_url + self.orders + jsonorder)
+        return requests.post("{base_url}orders".format(base_url), json=jsonorder)
 
 #part you have to fill yourself:
 sellToken = "0xddafbb505ad214d7b80b1f830fccc89b60fb7a83"    
