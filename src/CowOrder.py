@@ -8,19 +8,23 @@ from hexbytes import HexBytes
 import time
 
 class Fee: 
-    def __init__(self, base_url, feeAddress):
-        self.base_url = base_url
-        self.feeAddress = feeAddress
+    def __init__(self, sellToken, buyToken, sellAmount, kind):
+        self.sellToken = sellToken
+        self.buyToken = buyToken
+        self.sellAmount = sellAmount
+        self.kind = kind
     
     def setFee(self):
-        url = "{baseUrl}fee?sellToken={sellToken}&buyToken={buyToken}&amount={amount}&kind={kind}".format(
-            baseUrl=base_url, 
-            sellToken=self.sell_token, 
-            buyToken=self.buy_token,
-            amount=self.sell_amount,
-            kind=self.kind
-        )
-        feeAmount = int(url.json()["amount"])
+        self.base_url = base_url
+        url = "{}fee?sellToken={}&buyToken={}&amount={}&kind={}".format(
+            self.base_url, 
+            self.sellToken, 
+            self.buyToken,
+            self.sellAmount,
+            self.kind
+            )
+        requestFee = requests.get(url)
+        feeAmount = int(requestFee.json()["amount"])
         return feeAmount
 
 class Signature:
@@ -51,7 +55,7 @@ class Order(Fee, Signature, EIP712Struct):
         self.buyAmount: Uint(256) = buyAmount
         self.validTo: Uint(32) = validTo
         self.appData: Bytes(32) = appData
-        self.feeAmount: Uint(256) = str(Fee.setFee(self))
+        self.feeAmount: Uint(256) = str(Fee.setFee(self, base_url))
         self.partiallyFillable: Boolean() = partiallyFillable
         self.signature = Signature.getSig(self)
         self.signingScheme = signingScheme
@@ -59,10 +63,11 @@ class Order(Fee, Signature, EIP712Struct):
         self.buyTokenBalance: String() = buyTokenBalance 
     
     def toJson(self):
-        jsonorder = json.dumps(self, default=lambda obj: obj.__dict__, indent=4)
-        self.orders = orders
+        return json.dumps(self, default=lambda obj: obj.__dict__, indent=4)
+                
+    def submitOrder(self, base_url):
         self.base_url = base_url
-        return requests.post("{base_url}orders".format(base_url), json=jsonorder)
+        return requests.post("{}orders".format(self.base_url), json=self.toJson())
 
 #part you have to fill yourself:
 sellToken = "0xddafbb505ad214d7b80b1f830fccc89b60fb7a83"    
@@ -79,9 +84,7 @@ chainId = "100"
 verifyingContract = "0x9008D19f58AAbD9eD0D60971565AA8510560ab41"
 
 #dont change these:
-name = "Gnosis Protocol"                                   
-orders = "orders/"                                        
-feeAddress = "fee?sellToken="                              
+name = "Gnosis Protocol"                                                                
 kind = "buy"                                                
 validTo = int(time.time()) + 120                     
 appData = "0x0000000000000000000000000000000000000000000000000000000000000ccc" 
@@ -91,7 +94,7 @@ buyTokenBalance = "erc20"
 signingScheme = "ethsign"
 
 CowSwapOrder = Order(sellToken, buyToken, sellAmount, kind, receiver, buyAmount, validTo, appData, partiallyFillable, sellTokenBalance, buyTokenBalance, signingScheme, orders)
-print(CowSwapOrder.toJson())
+print(CowSwapOrder.submitOrder(base_url))
 
 
 
