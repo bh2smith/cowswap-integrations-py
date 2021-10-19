@@ -13,8 +13,14 @@ class Fee:
         self.feeAddress = feeAddress
     
     def setFee(self):
-        requestFee = requests.get(base_url + feeAddress + sellToken + "&buyToken=" + buyToken + "&amount=" +sellAmount + "&kind=" + kind)
-        feeAmount = int(requestFee.json()["amount"])
+        url = "{baseUrl}fee?sellToken={sellToken}&buyToken={buyToken}&amount={amount}&kind={kind}".format(
+            baseUrl=base_url, 
+            sellToken=self.sell_token, 
+            buyToken=self.buy_token,
+            amount=self.sell_amount,
+            kind=self.kind
+        )
+        feeAmount = int(url.json()["amount"])
         return feeAmount
 
 class Signature:
