@@ -2,21 +2,9 @@
 
 Make an order through API CowSwap
 
-Dependencies
-python3 version 3.6 or greater
-eip712
-hexbytes
-web3.auto
-
-Installation
-pip install eip712
-pip install hexbytes
-pip install web3
-
 Running
-Set your public address and private key (without '0x' prefix) in a .env 
+Set your network, public address and private key (without '0x' prefix) in a .env 
 Fill the variables in the main.py
-Set the network in Domains.py (currently only set for xdai)
 
 Run main.py and you get the order tx as outcome
 
