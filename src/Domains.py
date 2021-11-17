@@ -3,7 +3,7 @@ import os
 
 load_dotenv()
 
-network = "xdai"
+network = os.getenv("NETWORK")
 
 if(network == "xdai"):
 #xdai

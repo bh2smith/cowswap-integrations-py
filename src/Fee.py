@@ -13,22 +13,14 @@ class Fee:
         self.base_url = Domains.base_url
 
     def get_fee(self):
-        if self.kind == "buy":
-            url = "{}fee?sellToken={}&buyToken={}&amount={}&kind={}".format(
-                self.base_url, 
-                self.sellToken, 
-                self.buyToken,
-                self.buyAmount,
-                self.kind
-            )
-        else:
-            url = "{}fee?sellToken={}&buyToken={}&amount={}&kind={}".format(
-                self.base_url, 
-                self.sellToken, 
-                self.buyToken,
-                self.sellAmount,
-                self.kind
-            )
+        url = "{}fee?sellToken={}&buyToken={}&amount={}&kind={}".format(
+            self.base_url, 
+            self.sellToken, 
+            self.buyToken,
+            self.buyAmount,
+            self.kind
+        )
+
         requestFee = requests.get(url)
         if "amount" in requestFee.json().keys():
             feeAmount = int(requestFee.json()["amount"])
