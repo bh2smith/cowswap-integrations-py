@@ -1,44 +1,52 @@
-from eip712.messages import EIP712Message
+import json
 import time
+
+import requests
+from eip712.messages import EIP712Message
 from hexbytes import HexBytes
 from web3.auto import w3
-import Domains
-import json
-import requests
+
+import domains
 from JSONEncoder import BytesJSONEncoder
 
+
 class Order(EIP712Message):
-    _name_: "string" = Domains.name
-    _version_: "string" = Domains.version
-    _chainId_: "uint256" = Domains.chainId
-    _verifyingContract_: "address" = Domains.verifyingContract
+    _name_: "string" = domains.name
+    _version_: "string" = domains.version
+    _chainId_: "uint256" = domains.chain_id
+    _verifyingContract_: "address" = domains.verifying_contract
 
     sellToken: "address"
     buyToken: "address"
-    receiver: "address" = Domains.public_address1
+    receiver: "address" = domains.public_address
     sellAmount: "uint256"
     buyAmount: "uint256"
     validTo: "uint32" = int(int(time.time()) + 240)
-    appData: "bytes32" = HexBytes("0x0000000000000000000000000000000000000000000000000000000000000ccc")
-    feeAmount: "uint256" 
+    appData: "bytes32" = HexBytes(
+        "0x000000000000000000000000000000000000000000000000000000000000ca1f")
+    feeAmount: "uint256"
     kind: "string"
     partiallyFillable: "bool" = False
     sellTokenBalance: "string" = "erc20"
     buyTokenBalance: "string" = "erc20"
+    signingScheme: "string" = "eip712"
 
-    def get_sig(self):
-        sig = w3.eth.account.sign_message(self.signable_message, private_key=Domains.privatekey1)
+    def sign(self):
+        sig = w3.eth.account.sign_message(
+            self.signable_message,
+            private_key=domains.private_key
+        )
         return str(sig.signature.hex())
 
-    def set_JSON(self):
-        orders = self.body_data['message']
-        orders['signature'] = self.get_sig()
-        orders['signingScheme'] = "eip712"
-        orders['sellAmount'] = str(self.sellAmount)
-        orders['buyAmount'] = str(self.buyAmount)
-        orders['feeAmount'] = str(self.feeAmount)
-        return json.dumps(orders, indent=4, cls=BytesJSONEncoder)
+    def set_json(self):
+        order = self.body_data['message']
+        order['signature'] = self.sign()
+        # TODO - We shouldn't have to do this! maybe a method called "garnish"
+        order['sellAmount'] = str(self.sellAmount)
+        order['buyAmount'] = str(self.buyAmount)
+        order['feeAmount'] = str(self.feeAmount)
+        return json.dumps(order, indent=4, cls=BytesJSONEncoder)
 
     def post_order(self):
-        r = requests.post(Domains.base_url + "orders", data=self.set_JSON())
+        r = requests.post(domains.base_url + "orders", data=self.set_json())
         return r.text
