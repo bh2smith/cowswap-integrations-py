@@ -2,7 +2,13 @@
 
 Make an order through API CowSwap
 
-## Setup
+## Setup & Installation
+
+```shell
+python3 -m venv venv
+source ./env/bin/activate
+pip install -r requirements.txt
+```
 
 You will need to create your own `.env` file. A template exists here as `.env.sample`
 from which you can make your own by running the command `cp .env.sample .env` and
@@ -16,7 +22,7 @@ Fill the variables in the `cow_swap` method of `./main.py`
 
 ```shell
 src .env
-python main.py
+python -m src.main
 ```
 
 If you run the script exactly as is with the public and private keys provided, you
