@@ -5,6 +5,7 @@ import requests
 from eip712.messages import EIP712Message
 from hexbytes import HexBytes
 from web3.auto import w3
+from eth_account import Account
 
 from . import domains
 from .encoding import BytesJSONEncoder
@@ -18,7 +19,7 @@ class Order(EIP712Message):
 
     sellToken: "address"
     buyToken: "address"
-    receiver: "address" = domains.public_address
+    receiver: "address" = Account.from_key(domains.private_key).address
     sellAmount: "uint256"
     buyAmount: "uint256"
     validTo: "uint32" = int(int(time.time()) + 240)

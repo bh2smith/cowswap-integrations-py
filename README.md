@@ -16,7 +16,7 @@ filling in your own account details.
 
 ## Placing an Order
 
-Set your network, public address and private key in `.env`.
+Set your network and private key in `.env`.
 
 Fill the variables in the `cow_swap` method of `./main.py`
 
@@ -26,7 +26,7 @@ python -m src.main
 ```
 
 If you run the script exactly as is with the public and private keys provided, you
-should receive and error from the orderbook API saying:
+should receive an error from the orderbook API saying:
 
 ```shell
 {"errorType":"InsufficientFunds","description":"order owner must have funds worth at least x in his account"}

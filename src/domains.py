@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-public_address = os.getenv("PUBLIC_ADDRESS")
 private_key = os.getenv("PRIVATE_KEY")
 network = os.getenv("NETWORK")
 
