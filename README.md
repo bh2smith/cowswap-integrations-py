@@ -3,10 +3,23 @@
 Make an order through API CowSwap
 
 Running
-Set your network, public address and private key (without '0x' prefix) in a .env 
-Fill the variables in the main.py
+Set your network, public address and private key in `.env`.
+Fill the variables in the `cow_swap` method of `./main.py`
 
-Run main.py and you get the order tx as outcome
+```shell
+src .env
+python main.py
+```
+
+If you run the script exactly as is with the public and private keys provided,
+you should receive and error from the orderbook API saying:
+```shell
+{"errorType":"InsufficientFunds","description":"order owner must have funds worth at least x in his account"}
+```
+ 
+
+
+
 
 
 
