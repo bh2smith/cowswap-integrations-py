@@ -1,6 +1,6 @@
 import requests
 
-import domains
+from . import domains
 
 
 class Fee:

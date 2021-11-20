@@ -6,8 +6,8 @@ from eip712.messages import EIP712Message
 from hexbytes import HexBytes
 from web3.auto import w3
 
-import domains
-from JSONEncoder import BytesJSONEncoder
+from . import domains
+from .JSONEncoder import BytesJSONEncoder
 
 
 class Order(EIP712Message):
