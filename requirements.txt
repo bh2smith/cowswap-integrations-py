@@ -1,5 +1,6 @@
-requests
-eip712_structs
-eth_account
-hexbytes
-web3
+requests==2.26.0
+eip712==0.1.0
+eth_account==0.5.5
+hexbytes==0.2.2
+web3==5.23.1
+python-dotenv==0.19.2
