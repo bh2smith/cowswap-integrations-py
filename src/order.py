@@ -7,7 +7,7 @@ from hexbytes import HexBytes
 from web3.auto import w3
 
 from . import domains
-from .JSONEncoder import BytesJSONEncoder
+from .encoding import BytesJSONEncoder
 
 
 class Order(EIP712Message):

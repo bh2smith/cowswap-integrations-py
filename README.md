@@ -2,8 +2,16 @@
 
 Make an order through API CowSwap
 
-Running
+## Setup
+
+You will need to create your own `.env` file. A template exists here as `.env.sample`
+from which you can make your own by running the command `cp .env.sample .env` and
+filling in your own account details.
+
+## Placing an Order
+
 Set your network, public address and private key in `.env`.
+
 Fill the variables in the `cow_swap` method of `./main.py`
 
 ```shell
@@ -11,23 +19,12 @@ src .env
 python main.py
 ```
 
-If you run the script exactly as is with the public and private keys provided,
-you should receive and error from the orderbook API saying:
+If you run the script exactly as is with the public and private keys provided, you
+should receive and error from the orderbook API saying:
+
 ```shell
 {"errorType":"InsufficientFunds","description":"order owner must have funds worth at least x in his account"}
 ```
- 
-
-
-
-
-
-
-
-
-
-
-
 
 # CowSwap API Integrations & Tid Bits
 
