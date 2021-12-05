@@ -7,8 +7,8 @@ from hexbytes import HexBytes
 from web3.auto import w3
 from eth_account import Account
 
-from . import domains
-from .encoding import BytesJSONEncoder
+import domains
+from encoding import BytesJSONEncoder
 
 
 class Order(EIP712Message):
@@ -19,7 +19,7 @@ class Order(EIP712Message):
 
     sellToken: "address"
     buyToken: "address"
-    receiver: "address" = Account.from_key(domains.private_key).address
+    receiver: "address" #= Account.from_key(domains.private_key).address
     sellAmount: "uint256"
     buyAmount: "uint256"
     validTo: "uint32" = int(int(time.time()) + 240)
@@ -31,10 +31,10 @@ class Order(EIP712Message):
     sellTokenBalance: "string" = "erc20"
     buyTokenBalance: "string" = "erc20"
 
-    def sign(self, private_key: str):
+    def sign(self):
         sig = w3.eth.account.sign_message(
             self.signable_message,
-            private_key=private_key
+            private_key=domains.private_key
         )
         return str(sig.signature.hex())
 
