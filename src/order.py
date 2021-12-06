@@ -19,7 +19,7 @@ class Order(EIP712Message):
 
     sellToken: "address"
     buyToken: "address"
-    receiver: "address" #= Account.from_key(domains.private_key).address
+    receiver: "address" = Account.from_key(domains.private_key).address
     sellAmount: "uint256"
     buyAmount: "uint256"
     validTo: "uint32" = int(int(time.time()) + 240)

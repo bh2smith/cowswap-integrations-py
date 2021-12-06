@@ -20,7 +20,6 @@ class OldOrderTests(unittest.TestCase):
 
 
 class OrderTests(unittest.TestCase):
-    maxDiff = None
     def test_sign(self):
         sell_token = "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
         buy_token = "0x4ecaba5870353805a9f068101a40e0f32ed605c6"
@@ -29,11 +28,9 @@ class OrderTests(unittest.TestCase):
         kind = "buy"
         fee_amount = 887
 
-        pk = "0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d"
-        receiver = Account.from_key(pk).address
         # Must specify validTo because it fixes the order parameters and
         # makes the signature deterministic.
-        order = Order(sell_token, buy_token, receiver, sell_amount, buy_amount, fee_amount, kind,
+        order = Order(sell_token, buy_token, sell_amount, buy_amount, fee_amount, kind,
                       validTo=1639052668)
         required_signature = "0xa2d34aff599383dd6a86826e3caf087077350567daaad3173c54d945bef3c6a865a02a831af7fc67d07d844bd120a83fbe1ea2f60c8af157e86c100c6693e85f1b"
         self.assertEqual(order.sign(), required_signature)
