@@ -21,7 +21,7 @@ Set your network and private key in `.env`.
 Fill the variables in the `cow_swap` method of `./main.py`
 
 ```shell
-src .env
+source .env
 python -m src.main
 ```
 

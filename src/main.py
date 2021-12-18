@@ -1,5 +1,6 @@
 from src.fee import Fee
 from src.order import Order
+from src.domains import private_key
 
 
 def cow_swap():
@@ -13,6 +14,7 @@ def cow_swap():
     fee = Fee(sell_token, buy_token, sell_amount, kind, buy_amount)
     fee_amount = fee.get_fee()
     order = Order(sell_token, buy_token, sell_amount, buy_amount, fee_amount, kind)
+    order.sign(private_key)
     print(order.post_order())
 
 
