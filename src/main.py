@@ -1,21 +1,17 @@
-from src.fee import Fee
 from src.order import Order
 from src.domains import private_key
 
 
 def cow_swap():
     # fill variables below and fill network, public address and private key in .env
-    sell_token = "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
-    buy_token = "0x4ecaba5870353805a9f068101a40e0f32ed605c6"
-    sell_amount = 1000000
-    buy_amount = 1000000
-    kind = "buy"
-
-    fee = Fee(sell_token, buy_token, sell_amount, kind, buy_amount)
-    fee_amount = fee.get_fee()
-    order = Order(sell_token, buy_token, sell_amount, buy_amount, fee_amount, kind)
-    order.sign(private_key)
-    print(order.post_order())
+    uid = Order() \
+      .withSellAmount(100000000000000000) \
+      .withSellToken("0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d") \
+      .withBuyToken("0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83") \
+      .quote() \
+      .slippage(50) \
+      .post()
+    print(f"Successfully placed order: https://explorer.cow.fi/orders/{uid}")
 
 
 if __name__ == "__main__":
