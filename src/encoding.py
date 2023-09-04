@@ -9,5 +9,4 @@ class BytesJSONEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, bytes):
             return to_hex(o)
-        else:
-            return super(BytesJSONEncoder, self).default(o)
+        return super().default(o)

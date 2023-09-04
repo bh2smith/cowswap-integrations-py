@@ -1,56 +1,49 @@
 import unittest
 import json
 
-from eth_account import Account
-
-from martins_script import Order as OldOrder
-from order import Order
-
-
-class OldOrderTests(unittest.TestCase):
-    def test_opposite_kind(self):
-        buy_order = OldOrder(sell_token="TokenA", buy_token="TokenB", receiver="",
-                             sell_amount=1, buy_amount=2, valid_to=0, fee_amount=1,
-                             kind="buy")
-        self.assertEqual(buy_order.opposite_kind(), "sell")
-        sell_order = OldOrder(sell_token="TokenA", buy_token="TokenB", receiver="",
-                              sell_amount=1, buy_amount=2, valid_to=0, fee_amount=1,
-                              kind="sell")
-        self.assertEqual(sell_order.opposite_kind(), "buy")
+from src.order import Order
 
 
 class OrderTests(unittest.TestCase):
     def test_sign(self):
-        sell_token = "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
-        buy_token = "0x4ecaba5870353805a9f068101a40e0f32ed605c6"
-        sell_amount = 1000000
-        buy_amount = 1000000
-        kind = "buy"
-        fee_amount = 887
-
         # Must specify validTo because it fixes the order parameters and
         # makes the signature deterministic.
-        order = Order(sell_token, buy_token, sell_amount, buy_amount, fee_amount, kind,
-                      validTo=1639052668)
-        required_signature = "0xa2d34aff599383dd6a86826e3caf087077350567daaad3173c54d945bef3c6a865a02a831af7fc67d07d844bd120a83fbe1ea2f60c8af157e86c100c6693e85f1b"
-        self.assertEqual(order.sign(), required_signature)
-        expected_order = json.loads('''{
+        order = (
+            Order()
+            .withSellToken("0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83")
+            .withBuyToken("0x4ecaba5870353805a9f068101a40e0f32ed605c6")
+            .withSellAmount(1000000)
+            .withBuyAmount(1000000)
+            .withFeeAmount(887)
+            .withKind("buy")
+            .withValidTo(1639052668)
+        )
+
+        self.assertEqual(
+            order.json().get("signature"),
+            "0x39a13c31ac9327396b75b9f537fabbd8e738d84f03f76b607e5ecae31bbf19416e98846a1953492d0dcbb5037140f9e0e894b13affeb0985a368b5ee55c1c3df1b",
+        )
+        expected_order = json.loads(
+            """{
             "sellToken": "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83", 
             "buyToken": "0x4ecaba5870353805a9f068101a40e0f32ed605c6", 
-            "receiver": "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1", 
+            "from": "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1",
+            "receiver": "0x0000000000000000000000000000000000000000", 
             "sellAmount": "1000000", 
             "buyAmount": "1000000", 
             "validTo": 1639052668, 
-            "appData": "0x000000000000000000000000000000000000000000000000000000000000ca1f", 
+            "appData": {"appCode": "cowswap-integrations-py"}, 
             "feeAmount": "887",
+            "quoteId": 0,
             "kind": "buy", 
             "partiallyFillable": false, 
             "sellTokenBalance": "erc20", 
             "buyTokenBalance": "erc20", 
-            "signature": "0xa2d34aff599383dd6a86826e3caf087077350567daaad3173c54d945bef3c6a865a02a831af7fc67d07d844bd120a83fbe1ea2f60c8af157e86c100c6693e85f1b", 
-            "signingScheme": "eip712"}''')
-        self.assertEqual(json.loads(order.set_json()), expected_order)
+            "signature": "0x39a13c31ac9327396b75b9f537fabbd8e738d84f03f76b607e5ecae31bbf19416e98846a1953492d0dcbb5037140f9e0e894b13affeb0985a368b5ee55c1c3df1b", 
+            "signingScheme": "eip712"}"""
+        )
+        self.assertEqual(order.json(), expected_order)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
